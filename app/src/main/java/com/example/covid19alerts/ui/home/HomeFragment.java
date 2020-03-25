@@ -1,5 +1,9 @@
 package com.example.covid19alerts.ui.home;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +21,11 @@ import com.example.covid19alerts.R;
 public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
+    private Context _context;
+    private TextView _textView;
+    private BroadcastReceiver broadcastReceiver;
+    // correctly register and unregister listeners
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -30,6 +39,37 @@ public class HomeFragment extends Fragment {
                 textView.setText(s);
             }
         });
+
+        _textView = root.findViewById(R.id.text_home);
+
+        setup();
         return root;
     }
+
+    @Override
+    public void onAttach(Context context)
+    {
+        super.onAttach(context);
+        _context = context;
+    }
+
+    @Override
+    public void onDestroyView()
+    {
+        super.onDestroyView();
+        _context.unregisterReceiver(broadcastReceiver);
+    }
+    private void setup() {
+        if (broadcastReceiver ==  null) {
+            broadcastReceiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    //use coordinates
+                    _textView.append("\n" +intent.getExtras().get("coordinates"));
+                }
+            };
+        }
+        _context.registerReceiver(broadcastReceiver, new IntentFilter("location_update"));
+    }
+
 }

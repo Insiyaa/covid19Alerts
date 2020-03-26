@@ -10,12 +10,15 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
 import com.kosalgeek.android.caching.FileCacher;
 
 import java.io.IOException;
+
+import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class GPS_Serivce extends Service {
 
@@ -43,16 +46,22 @@ public class GPS_Serivce extends Service {
                 Intent i = new Intent("location_update");
                 i.putExtra("coordinates", location.getLongitude() + " " + location.getLatitude());
                 home_loc = new FileCacher<>(getApplicationContext(), "myloc.txt");
-                sendBroadcast(i);
+
                 if (home_loc.hasCache()) {
                     try {
-                        String loc = home_loc.readCache();
-                        String[] coors1 = loc.split(" ");
                         double lat1 = location.getLatitude();
                         double long1 = location.getLongitude();
+                        String loc = home_loc.readCache();
+                        String[] coors1 = {Double.toString(long1), Double.toString(lat1)};
+                        if (loc != null) {
+                            Log.i("loc", loc);
+                            coors1 = loc.split(" ");
+                        }
+
                         double lat2 = Double.parseDouble(coors1[1]);
                         double long2 = Double.parseDouble(coors1[0]);
                         double dist = distance(lat1, lat2, long1, long2);
+                        Log.i("dist", Double.toString(dist));
                         if (dist > thresh) {
                             i.putExtra("exceed", "true");
                         } else {
@@ -63,6 +72,7 @@ public class GPS_Serivce extends Service {
                         e.printStackTrace();
                     }
                 }
+                sendBroadcast(i);
             }
 
             @Override

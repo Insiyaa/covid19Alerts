@@ -7,10 +7,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,7 +29,7 @@ public class HomeFragment extends Fragment {
 
     private Context _context;
     private BroadcastReceiver broadcastReceiver;
-    private FileCacher <String> home_loc;
+    private FileCacher<String> home_loc;
     private String latest_loc;
     private Activity a;
     // correctly register and unregister listeners
@@ -63,11 +65,14 @@ public class HomeFragment extends Fragment {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                Toast.makeText(_context,
+                        "Home location Updated", Toast.LENGTH_SHORT).show();
             }
         });
         setup();
         return root;
     }
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -75,31 +80,32 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Context context)
-    {
+    public void onAttach(Context context) {
         super.onAttach(context);
         _context = context;
         home_loc = new FileCacher<>(_context, "myloc.txt");
     }
 
     @Override
-    public void onDestroyView()
-    {
+    public void onDestroyView() {
         super.onDestroyView();
         _context.unregisterReceiver(broadcastReceiver);
     }
+
     private void setup() {
-        if (broadcastReceiver ==  null) {
+        if (broadcastReceiver == null) {
             broadcastReceiver = new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
                     //use coordinates
 //                    _textView.append("\n" +intent.getExtras().get("coordinates"));
-                    latest_loc = ""+ Objects.requireNonNull(intent.getExtras()).get("coordinates");
-                    String exceeds = intent.getExtras().get("exceed").toString();
-                    exceeds = "true";
-                    if ("true" == exceeds) {
+                    latest_loc = "" + Objects.requireNonNull(intent.getExtras()).get("coordinates");
+                    String exceeds = "" + intent.getExtras().get("exceed");
+//                    exceeds = "true";
+                    Log.i("exceeds", exceeds);
+                    if (exceeds.equals("true")) {
                         //alert
+                        Log.i("alert", "chahiye");
                         a.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -127,33 +133,5 @@ public class HomeFragment extends Fragment {
         }
         _context.registerReceiver(broadcastReceiver, new IntentFilter("location_update"));
     }
-
-//    private double distance(double lat1, double lat2, double lon1, double lon2)
-//    {
-//
-//        // The math module contains a function
-//        // named toRadians which converts from
-//        // degrees to radians.
-//        lon1 = Math.toRadians(lon1);
-//        lon2 = Math.toRadians(lon2);
-//        lat1 = Math.toRadians(lat1);
-//        lat2 = Math.toRadians(lat2);
-//
-//        // Haversine formula
-//        double dlon = lon2 - lon1;
-//        double dlat = lat2 - lat1;
-//        double a = Math.pow(Math.sin(dlat / 2), 2)
-//                + Math.cos(lat1) * Math.cos(lat2)
-//                * Math.pow(Math.sin(dlon / 2),2);
-//
-//        double c = 2 * Math.asin(Math.sqrt(a));
-//
-//        // Radius of earth in kilometers. Use 3956
-//        // for miles
-//        double r = 6371;
-//
-//        // calculate the result
-//        return(c * r);
-//    }
 
 }

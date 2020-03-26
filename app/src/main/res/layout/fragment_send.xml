@@ -1,19 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:background="@android:color/background_light">
 
-    <TextView
-        android:id="@+id/text_send"
+
+    <EditText
+        android:id="@+id/_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:hint="Name"
+        android:padding="10dp"
+        android:inputType="textPersonName"
+        android:background="@android:color/white"/>
+
+    <EditText
+        android:id="@+id/_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Phone number"
+        android:padding="10dp"
+        android:inputType="phone"
+        android:background="@android:color/white"/>
+    <EditText
+        android:id="@+id/_need"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Required Item"
+        android:padding="10dp"
+        android:inputType="text"
+        android:background="@android:color/white"/>
+    <EditText
+        android:id="@+id/_city"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="City"
+        android:padding="10dp"
+        android:inputType="text"
+        android:background="@android:color/white"/>
+    <EditText
+        android:id="@+id/_details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Other details"
+        android:padding="10dp"
+        android:inputType="text"
+        android:background="@android:color/white"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/_loc"
+        android:padding="10dp"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_submit"
+        android:text="Send Request"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:background="@android:color/darker_gray"
+        />
+
+
+</LinearLayout>

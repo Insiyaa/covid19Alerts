@@ -31,4 +31,8 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+    implementation 'com.squareup.okhttp3:okhttp:3.4.1'
+    implementation 'com.basgeekball:awesome-validation:4.2'
+    implementation files('/home/insiyeah/Desktop/FileCacher.jar')
+
 }

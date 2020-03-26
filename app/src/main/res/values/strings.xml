@@ -13,4 +13,7 @@
     <string name="menu_tools">Tools</string>
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
+    <string name="invalid_name">Please Enter Name</string>
+    <string name="invalid_mobile">Please Enter Valid Mobile Number</string>
+    <string name="invalid_entry">Mandatory field</string>
 </resources>
